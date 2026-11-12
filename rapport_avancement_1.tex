@@ -1,0 +1,487 @@
+%==============================================================================
+%  RAPPORT D'AVANCEMENT N°1 - Projet « Factures & Devis » - QUOVIL / NAFSIM Sarl
+%  Compilation : pdflatex rapport_avancement_1.tex   (lancer 2 fois)
+%  Moteur conseillé : pdfLaTeX (Overleaf, TeXstudio, MiKTeX, TeX Live)
+%==============================================================================
+
+%------------------------------------------------------------------------------
+% 1. CLASSE DU DOCUMENT
+%    article = document simple ; 11pt = taille du texte ; a4paper = format A4
+%------------------------------------------------------------------------------
+\documentclass[11pt,a4paper]{article}
+
+%------------------------------------------------------------------------------
+% 2. PACKAGES (extensions de LaTeX)
+%------------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}      % lire les accents tapés au clavier (é, è, à...)
+\usepackage[T1]{fontenc}         % bon encodage des caractères accentués
+\usepackage{lmodern}             % police vectorielle propre
+\usepackage[french]{babel}       % langue française (césures, « », dates...)
+\usepackage[margin=2.2cm]{geometry} % marges de la page
+\usepackage{graphicx}            % insérer des images (\includegraphics)
+\usepackage{xcolor}              % couleurs
+\usepackage{array}               % tableaux avancés (colonnes personnalisées)
+\usepackage{longtable}           % tableaux pouvant continuer sur plusieurs pages
+\usepackage{booktabs}            % (facultatif) beaux filets de tableaux
+\usepackage{colortbl}            % colorer les cellules / lignes de tableaux
+\usepackage{enumitem}            % listes personnalisées
+\usepackage{fancyhdr}            % en-têtes et pieds de page
+\usepackage{hyperref}            % liens cliquables (URL, sommaire)
+
+%------------------------------------------------------------------------------
+% 3. COULEURS ET PARAMÈTRES GÉNÉRAUX
+%------------------------------------------------------------------------------
+\definecolor{bleuensp}{RGB}{31,78,121}    % bleu des titres
+\definecolor{bleuentete}{RGB}{46,116,181} % bleu des en-têtes de tableaux
+\definecolor{orangeensp}{RGB}{237,125,49} % orange (rappel du logo ENSPY)
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=bleuensp,
+  urlcolor=bleuentete,
+  pdftitle={Rapport d'avancement n°1 - Groupe G03},
+  pdfauthor={Groupe G03 - 3 GTEL}
+}
+
+\setlength{\parindent}{0pt}               % pas de retrait en début de paragraphe
+\setlength{\parskip}{6pt}                 % espace entre paragraphes
+\renewcommand{\arraystretch}{1.25}        % lignes de tableaux un peu plus aérées
+
+%------------------------------------------------------------------------------
+% 4. COMMANDES PERSONNALISÉES
+%------------------------------------------------------------------------------
+
+% Colonnes de tableau : p{largeur} centrée (C) ou alignée à gauche (L)
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% Cellule d'en-tête de tableau : texte blanc, gras, centré
+\newcommand{\entete}[1]{\textcolor{white}{\textbf{#1}}}
+
+% \imageouboite{fichier}{largeur}
+% -> insère l'image si le fichier existe, sinon affiche une boîte à la place.
+%    Ainsi le document COMPILE TOUJOURS, même sans les images.
+\newcommand{\imageouboite}[2]{%
+  \IfFileExists{#1}%
+    {\includegraphics[width=#2]{#1}}%
+    {\fbox{\parbox[c][3cm][c]{#2}{\centering\small\textit{Image manquante :}\\\texttt{\detokenize{#1}}}}}%
+}
+
+% Titre de section stylé (on redéfinit l'apparence de \section)
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{bleuensp}}{\thesection-}{0.5em}{}[\titlerule]
+\titleformat{\subsection}{\large\bfseries\color{bleuensp}}{\thesubsection}{0.5em}{}
+
+% Numérotation des sections : 1, 2, 3...  ; sous-sections : a, b, c...
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\alph{subsection})}
+
+%------------------------------------------------------------------------------
+% 5. EN-TÊTE ET PIED DE PAGE (pages autres que la couverture)
+%------------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}                                              % on vide tout
+\fancyhead[L]{\small Rapport d'avancement n\textsuperscript{o}\,1 -- Groupe G03}
+\fancyhead[R]{\small ENSPY -- 3 GTEL}
+\fancyfoot[C]{\small Page \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%==============================================================================
+%                              DÉBUT DU DOCUMENT
+%==============================================================================
+\begin{document}
+
+%------------------------------------------------------------------------------
+% PAGE DE COUVERTURE
+%------------------------------------------------------------------------------
+\begin{titlepage}
+\thispagestyle{empty}   % pas d'en-tête sur la couverture
+\centering
+
+\vspace*{0.5cm}
+% Logo de l'ENSPY : placez le fichier logo_enspy.png à côté de ce .tex
+\imageouboite{logo_enspy.png}{3.2cm}
+
+\vspace{0.6cm}
+{\color{bleuentete}\large RÉPUBLIQUE DU CAMEROUN -- \textit{Paix, Travail, Patrie}}
+
+\vspace{0.4cm}
+{\color{bleuentete}\large UNIVERSITÉ DE YAOUNDÉ 1}
+
+\vspace{0.2cm}
+{\large\textbf{ECOLE NATIONALE SUPERIEURE POLYTECHNIQUE\\DE YAOUNDÉ}}
+
+\vspace{1.5cm}
+{\normalsize\textbf{Cours de Base de Données -- Semestre 1 -- 2026 -- 2027}}
+
+\vspace{0.3cm}
+{\normalsize\textbf{3 GTEL}}
+
+\vspace{1.5cm}
+{\fontsize{30}{36}\selectfont\color{bleuensp} Rapport d'avancement n\textsuperscript{o}\,1\par}
+
+\vspace{0.6cm}
+{\large Projet « Factures \& Devis »}
+
+\vspace{0.3cm}
+{\large QUOVIL -- pour l'entreprise fictive « NAFSIM Sarl »}
+
+\vspace{1.5cm}
+{\normalsize Groupe : G03}
+
+\vspace{0.3cm}
+{\normalsize Période couverte : du 26/10/2026 au 09/11/2026}
+
+\vspace{0.3cm}
+{\normalsize Date de dépôt : 09/11/2026}
+
+\vspace{0.3cm}
+{\normalsize Dépôt Git : \url{https://github.com/AlphonseNoumbissi/groupe03.git}}
+
+\vfill
+\end{titlepage}
+
+%------------------------------------------------------------------------------
+% SECTION 1 : GROUPE & RÔLES
+%------------------------------------------------------------------------------
+\section{Groupe \& Rôles}
+
+% longtable : tableau qui peut passer à la page suivante.
+% Colonnes : N° | Noms & Prénoms | Matricule | Filière | Rôle | Taux
+\begin{longtable}{|C{0.8cm}|L{4.6cm}|C{1.9cm}|C{1.7cm}|C{3.2cm}|C{1.5cm}|}
+\hline
+\rowcolor{bleuentete}
+\entete{N\textsuperscript{o}} & \entete{Noms \& Prénoms} & \entete{Matricule} &
+\entete{Filière} & \entete{Rôle} & \entete{Taux} \\
+\hline
+\endhead
+1 & ALIMA KASSA Jean & / & GTEL & / & 0\,\% \\ \hline
+2 & DJOUMA NGONGANG N.J. & 21p181 & GTEL & / & 0\,\% \\ \hline
+3 & FONTSACK TASSADONG Hervé & 24p122 & GTEL & Développeur PDF / front & 23\,\% \\ \hline
+4 & IMRAHNATOU YAYA & 26q375 & GTEL & Qualité \& documentation & 23\,\% \\ \hline
+5 & MBILEU MBAKOP AMAYO Anaïs & 26q373 & GTEL & Concepteur BD / DBA & 24\,\% \\ \hline
+6 & NOUMBISSI TEKEU Idriss Alphonse & 24p290 & GTEL & Chef de projet & 25\,\% \\ \hline
+7 & SAAFOMAH TEZEMBON Zidane & 24p504 & GTEL & Développeur backend & 5\,\% \\ \hline
+\end{longtable}
+
+\textbf{Somme des taux = 100\,\%}
+
+%------------------------------------------------------------------------------
+% SECTION 2 : IDENTITÉ DE L'ENTREPRISE
+%------------------------------------------------------------------------------
+\section{Identité de l'entreprise}
+
+NAFSIM SARL est une entreprise fictive spécialisée dans l'installation et la
+maintenance des réseaux informatiques. Pour suivre son activité commerciale,
+elle souhaite disposer d'une application permettant d'enregistrer les clients,
+de préparer les devis, d'émettre les factures et de suivre les paiements.
+
+\begin{longtable}{|C{0.8cm}|L{3.6cm}|L{10.2cm}|}
+\hline
+\rowcolor{bleuentete}
+\entete{N\textsuperscript{o}} & \entete{Élément} & \entete{Exigences} \\
+\hline
+\endhead
+1 & Raison sociale et sigle & NAFSIM SARL. \\ \hline
+2 & Forme juridique et capital & Société à responsabilité limitée (SARL).
+    Quatre millions huit cent mille FCFA. \\ \hline
+3 & Logo & Voir figure~1 \\ \hline
+4 & Cachet & Voir figure~2 \\ \hline
+5 & Signature & Voir figure~3 \\ \hline
+6 & Slogan / Activité & « Votre réseau, notre solution » \\ \hline
+7 & Adresse & Quartier Melen, Yaoundé, BP 39393 Yaoundé \\ \hline
+8 & Téléphones & +237 640203015 / +237 694768374 \\ \hline
+9 & Email et site web & contact@nafsim.example \\ \hline
+10 & Identifiants fiscaux & NIU : P098765432109 (fictif),
+     RCCM : RC/YAO/2026/A/4587 (fictif) \\ \hline
+11 & Coordonnées bancaires &
+     \begin{itemize}[leftmargin=*,nosep]
+       \item Banque : Afriland First Bank (compte 09642839642, nom du compte
+             NAFSIM Sarl)
+       \item Mobile Money : +237 698899899, nom NAFSIM Sarl
+     \end{itemize} \\ \hline
+12 & Conditions générales &
+     \begin{itemize}[leftmargin=*,nosep]
+       \item Validité des devis : 30 jours à compter de la date d'émission
+       \item Délai de paiement : 75\,\% à la commande, solde à la livraison
+       \item Mode de paiement : virement bancaire ou Mobile Money
+       \item Pénalités de retard : en cas de retard, 10\,\% du montant total
+             par semaine de retard ; à plus d'un mois, 50\,\% du montant total
+             après 2 semaines
+     \end{itemize} \\ \hline
+\end{longtable}
+
+%------------------------------------------------------------------------------
+% FIGURES (logo, cachet, signature)
+% Placez logo.png, cachet.png et signature.png dans le même dossier que ce
+% fichier. S'ils n'existent pas, une boîte grise s'affiche (pas d'erreur).
+%------------------------------------------------------------------------------
+\begin{center}
+\imageouboite{logo.png}{6cm}\\[2pt]
+Fig1 : Logo
+
+\vspace{0.6cm}
+\imageouboite{cachet.png}{5cm}\\[2pt]
+Fig2 : Cachet
+
+\vspace{0.6cm}
+\imageouboite{signature.png}{5cm}\\[2pt]
+Fig3 : Signature
+\end{center}
+
+%------------------------------------------------------------------------------
+% SECTION 3 : AUDIT DU CLASSEUR EXCEL
+%------------------------------------------------------------------------------
+\section{Audit du classeur Excel}
+
+\begin{longtable}{|C{1cm}|L{7.4cm}|L{6.2cm}|}
+\hline
+\rowcolor{bleuentete}
+\entete{N\textsuperscript{o}} & \entete{Anomalie constatée dans le document} &
+\entete{Nom du problème (vocabulaire BD)} \\
+\hline
+\endhead
+A1 & Les calculs intermédiaires et totaux (« 1\,060\,000 + 480\,000 =
+     1\,540\,000 », remise, TVA, TTC) sont saisis sous forme de texte
+     explicatif dans une cellule fusionnée au lieu d'être générés
+     dynamiquement.
+   & Données dérivées stockées/saisies au lieu d'être calculées (risque
+     d'incohérence lors d'une modification). \\ \hline
+A2 & La colonne Quantité de la section II contient des expressions
+     mathématiques non atomiques (« 6*3 » et « 5*2 ») représentant à la fois
+     le nombre de jours et le nombre de personnes.
+   & Violation de la première forme normale (1NF) / non-atomicité : plusieurs
+     attributs distincts (nombre de jours et nombre de personnes) sont
+     fusionnés dans une seule colonne. \\ \hline
+A3 & Mélange de deux concepts différents dans un même tableau : des articles
+     matériels (section I) et des prestations de service (section II) qui
+     n'ont pas les mêmes attributs (ex. : la main-d'œuvre dépend d'un effectif
+     et d'une durée).
+   & Mauvaise modélisation entité-association / absence de spécialisation
+     (regroupement forcé d'entités hétérogènes). \\ \hline
+A4 & Aucun code ou référence produit n'est attribué aux équipements (ex. :
+     « routeur d'entreprise MultiWAN »). Seule une longue description
+     textuelle est utilisée.
+   & Absence d'identifiant (clé primaire) pour les articles et absence de
+     référentiel (catalogue). \\ \hline
+A5 & Les numéros de ligne « 1 » et « 2 » sont utilisés en double dans le même
+     document (lignes 1 et 2 pour les fournitures, puis de nouveau lignes 1
+     et 2 pour la main-d'œuvre).
+   & Absence de clé primaire composite unique sur les lignes du devis
+     (id devis). \\ \hline
+A6 & La numérotation utilise des chiffres romains (I, II) pour les titres de
+     sections, mélangés avec des chiffres arabes.
+   & Absence de contrainte de domaine et de typage strict sur la colonne
+     d'indexation. \\ \hline
+A7 & Le client est simplement indiqué comme « client fictif », sans
+     identifiant, adresse, contact ni date d'émission ou de validité du devis.
+   & Absence de clé étrangère (id client) et de contraintes NOT NULL sur les
+     métadonnées obligatoires du devis. \\ \hline
+A8 & Les taux de remise globale (2\,\%) et de TVA (19,25\,\%) sont écrits en
+     texte libre dans l'en-tête.
+   & Redondance de données et absence d'attributs structurés pour les
+     paramètres de facturation. \\ \hline
+\end{longtable}
+
+%------------------------------------------------------------------------------
+% SECTION 4 : DICTIONNAIRE DES DONNÉES (BROUILLON)
+%------------------------------------------------------------------------------
+\section{Dictionnaire des données (brouillon)}
+
+\subsection{Entités et attributs (brouillon)}
+
+% \small réduit la taille du texte pour que le tableau tienne bien
+{\small
+\begin{longtable}{|L{3.2cm}|L{4.2cm}|L{7.8cm}|}
+\hline
+\rowcolor{bleuentete}
+\entete{Entité} & \entete{Rôle} & \entete{Attributs} \\
+\hline
+\endhead
+ENTREPRISE & Informations de l'entreprise émettrice &
+  id\_entreprise (identifiant), raison\_sociale, forme, adresse, téléphone,
+  email, numero\_identification, capital\_social, logo, cachet, signature,
+  devise \\ \hline
+UTILISATEUR & Personnes autorisées à utiliser l'application &
+  id\_utilisateur (identifiant), nom, prénom, identifiant\_connexion,
+  mot\_de\_passe\_hache, rôle, date\_creation, actif \\ \hline
+CLIENT & Particulier ou entreprise cliente &
+  id\_client (identifiant), code\_client, type\_client, nom, prénom,
+  raison\_sociale, téléphone, email, numero\_identification, date\_creation,
+  archive \\ \hline
+ADRESSE\_CLIENT & Adresses associées aux clients &
+  id\_adresse (identifiant), type\_adresse, adresse\_complete, ville,
+  pays \\ \hline
+FAMILLE\_ARTICLE & Classification des produits et prestations &
+  id\_famille (identifiant), code\_famille, libelle, description \\ \hline
+UNITE\_MESURE & Unités de quantification &
+  id\_unite (identifiant), code\_unite, libelle \\ \hline
+ARTICLE & Produits et prestations proposés &
+  id\_article (identifiant), reference, designation, description,
+  prix\_unitaire\_HT, actif \\ \hline
+DOCUMENT & Informations communes aux devis, factures et avoirs &
+  id\_document (identifiant), type\_document, numero\_document,
+  date\_creation, date\_emission, date\_validite, statut, remise\_valeur,
+  total\_HT, montant\_remise, taux\_TVA, montant\_TVA, total\_TTC,
+  motif\_exoneration \\ \hline
+SECTION\_DOCUMENT & Sections d'un document commercial &
+  id\_section (identifiant), titre, ordre\_affichage, sous\_total\_HT \\ \hline
+LIGNE\_DOCUMENT & Articles insérés dans une section &
+  id\_ligne (identifiant), designation\_enregistree, quantite,
+  prix\_unitaire\_HT\_applique, montant\_HT \\ \hline
+MAIN\_D\_OEUVRE & Prestations évaluées selon le temps et les techniciens &
+  id\_main\_oeuvre (identifiant), designation, nombre\_jours,
+  nombre\_personnes, prix\_journalier, montant\_HT \\ \hline
+FACTURE & Informations propres à une facture &
+  id\_facture (identifiant), date\_echeance \\ \hline
+REGLEMENT & Paiements effectués par les clients &
+  id\_reglement (identifiant), date\_reglement, montant, mode\_paiement,
+  reference\_paiement \\ \hline
+AVOIR & Correction commerciale d'une facture &
+  id\_avoir (identifiant), motif \\ \hline
+JOURNAL\_AUDIT & Historique des opérations importantes &
+  id\_journal (identifiant), action, type\_objet, id\_objet, date\_heure,
+  details \\ \hline
+\end{longtable}
+}
+
+\subsection{Associations et cardinalités}
+
+Le tableau présente les associations principales du modèle proposé. Les
+associations portant sur DOCUMENT doivent tenir compte de son type (DEVIS,
+FACTURE ou AVOIR).
+
+% enumerate = liste numérotée automatiquement (1., 2., 3., ...)
+\begin{enumerate}[leftmargin=*,itemsep=4pt]
+\item L'entité ENTREPRISE est liée à l'entité UTILISATEUR par l'association
+  « EMPLOYER ». Cardinalités proposées : ENTREPRISE (1, N) -- UTILISATEUR
+  (1, 1). Une entreprise emploie plusieurs utilisateurs ; chaque utilisateur
+  appartient à une entreprise.
+\item L'entité ENTREPRISE est liée à l'entité DOCUMENT par l'association
+  « GÉRER ». Cardinalités proposées : ENTREPRISE (0, N) -- DOCUMENT (1, 1).
+  Une entreprise peut émettre plusieurs documents ; chaque document appartient
+  à une entreprise.
+\item L'entité CLIENT est liée à l'entité ADRESSE\_CLIENT par l'association
+  « POSSÉDER ». Cardinalités proposées : CLIENT (0, N) -- ADRESSE\_CLIENT
+  (1, 1). Un client peut avoir plusieurs adresses ; une adresse appartient à
+  un client.
+\item L'entité CLIENT est liée à l'entité DOCUMENT par l'association
+  « CONCERNER ». Cardinalités proposées : CLIENT (0, N) -- DOCUMENT (1, 1).
+  Un client peut avoir plusieurs documents ; chaque document concerne un
+  client.
+\item L'entité UTILISATEUR est liée à l'entité DOCUMENT par l'association
+  « CRÉER ». Cardinalités proposées : UTILISATEUR (0, N) -- DOCUMENT (1, 1).
+  Un utilisateur peut créer plusieurs documents ; chaque document a un
+  responsable.
+\item L'entité FAMILLE\_ARTICLE est liée à l'entité ARTICLE par l'association
+  « CLASSER ». Cardinalités proposées : FAMILLE\_ARTICLE (0, N) -- ARTICLE
+  (1, 1). Une famille classe plusieurs articles ; chaque article appartient à
+  une famille.
+\item L'entité UNITE\_MESURE est liée à l'entité ARTICLE par l'association
+  « MESURER ». Cardinalités proposées : UNITE\_MESURE (0, N) -- ARTICLE
+  (1, 1). Une unité peut être utilisée par plusieurs articles ; chaque article
+  a une unité.
+\item L'entité DOCUMENT est liée à l'entité SECTION\_DOCUMENT par
+  l'association « COMPRENDRE ». Cardinalités proposées : DOCUMENT (0, N) --
+  SECTION\_DOCUMENT (1, 1). Un document peut contenir plusieurs sections ;
+  chaque section appartient à un document.
+\item L'entité SECTION\_DOCUMENT est liée à l'entité LIGNE\_DOCUMENT par
+  l'association « CONTENIR ». Cardinalités proposées : SECTION\_DOCUMENT
+  (0, N) -- LIGNE\_DOCUMENT (1, 1). Une section peut contenir plusieurs
+  lignes ; chaque ligne appartient à une section.
+\item L'entité ARTICLE est liée à l'entité LIGNE\_DOCUMENT par l'association
+  « ÊTRE RÉFÉRENCÉ DANS ». Cardinalités proposées : ARTICLE (0, N) --
+  LIGNE\_DOCUMENT (1, 1). Un article peut apparaître sur plusieurs lignes ;
+  chaque ligne référence un article du catalogue.
+\item L'entité SECTION\_DOCUMENT est liée à l'entité MAIN\_D\_OEUVRE par
+  l'association « COMPORTER ». Cardinalités proposées : SECTION\_DOCUMENT
+  (0, N) -- MAIN\_D\_OEUVRE (1, 1). Une section peut détailler plusieurs
+  prestations de main-d'œuvre.
+\item L'entité DOCUMENT est liée à l'entité FACTURE par l'association
+  « CORRESPONDRE À ». Cardinalités proposées : DOCUMENT (0, 1) -- FACTURE
+  (1, 1). Une facture spécialisée correspond à un document de type FACTURE.
+\item L'entité FACTURE est liée à l'entité REGLEMENT par l'association
+  « RECEVOIR ». Cardinalités proposées : FACTURE (0, N) -- REGLEMENT (1, 1).
+  Une facture peut recevoir plusieurs règlements ; chaque règlement concerne
+  une facture.
+\item L'entité DEVIS/DOCUMENT est liée à l'entité FACTURE par l'association
+  « ÊTRE À L'ORIGINE DE ». Cardinalités proposées : DEVIS (0, N) -- FACTURE
+  (0, 1). Un devis peut ne produire aucune facture ou en produire plusieurs
+  selon les règles retenues ; une facture peut être liée à un devis.
+\item L'entité DOCUMENT/FACTURE est liée à l'entité AVOIR par l'association
+  « ÊTRE CORRIGÉ PAR ». Cardinalités proposées : FACTURE (0, N) -- AVOIR
+  (1, 1). Une facture peut être corrigée par plusieurs avoirs ; chaque avoir
+  vise une facture d'origine.
+\item L'entité DOCUMENT est liée à l'entité AVOIR par l'association
+  « CORRESPONDRE À ». Cardinalités proposées : DOCUMENT (0, 1) -- AVOIR
+  (1, 1). Un avoir spécialisé correspond à un document de type AVOIR.
+\item L'entité UTILISATEUR est liée à l'entité JOURNAL\_AUDIT par
+  l'association « EFFECTUER ». Cardinalités proposées : UTILISATEUR (0, N) --
+  JOURNAL\_AUDIT (1, 1). Un utilisateur peut générer plusieurs entrées
+  d'historique ; chaque entrée identifie son auteur.
+\end{enumerate}
+
+%------------------------------------------------------------------------------
+% SECTION 5 : RÉSUMÉ EXÉCUTIF
+%------------------------------------------------------------------------------
+\section{Résumé exécutif}
+
+Le projet en est à ses prémices. Nous avons déjà identifié le nom de
+l'entreprise, le nom de l'application, les éléments d'identité constituant
+l'entreprise, ainsi qu'un dictionnaire brouillon des différentes entités et
+associations existantes dans notre entreprise. Néanmoins, nous avons rencontré
+des problèmes au niveau du logo, de la signature et du cachet, ces éléments ne
+figurant pas parmi les identifiants de l'entreprise, ainsi qu'au niveau de
+l'audit du tableau Excel. Le principal risque est que le rapport présente des
+manques d'informations et de données.
+
+Nous progressons à présent dans la conception du MCD, de l'UML et du MLD en
+respectant les différents éléments indiqués dans le cahier des charges. Le
+principal risque est la possibilité de ne pas pouvoir exécuter le déclencheur
+(\textit{trigger}).
+
+%------------------------------------------------------------------------------
+% SECTION 6 : OBJECTIFS ET ÉTAT D'AVANCEMENT
+%------------------------------------------------------------------------------
+\section{Objectifs de la période et état d'avancement}
+
+\begin{longtable}{|C{1.5cm}|L{8cm}|C{1.5cm}|C{3cm}|}
+\hline
+\rowcolor{bleuentete}
+\entete{Réf} & \entete{Objectifs / Exigences} & \entete{Prévu} & \entete{État} \\
+\hline
+\endhead
+EF-01 & Paramétrer l'entreprise émettrice (12 éléments, téléversement du
+        logo, du cachet et de la signature) & R1 & Terminé \\ \hline
+OS1 & Créer l'identité complète de l'entreprise fictive & R1 & Terminé \\ \hline
+OS2 & Analyser l'existant et rédiger le dictionnaire des données & R1 &
+      Terminé \\ \hline
+OS3 & Construire le MCD (MERISE) et les diagrammes UML & R2 &
+      En cours (60\,\%) \\ \hline
+EF-05 & Calcul en temps réel des montants en ligne & R1 & Terminé \\ \hline
+\end{longtable}
+
+%------------------------------------------------------------------------------
+% SECTION 7 : CONTRIBUTION INDIVIDUELLE
+%------------------------------------------------------------------------------
+\section{Contribution individuelle}
+
+\begin{longtable}{|L{3.8cm}|L{6.6cm}|C{1.5cm}|C{1.7cm}|}
+\hline
+\rowcolor{bleuentete}
+\entete{Membres} & \entete{Tâches réalisées} & \entete{Heures} &
+\entete{Commits} \\
+\hline
+\endhead
+NOUMBISSI TEKEU I. A. & Planification, maquette de l'en-tête, rédaction du
+  rapport, compte rendu de réunion, gestion du dépôt Git & 13 & 5 \\ \hline
+IMRAHNATOU YAYA & Audit du classeur, calcul en temps réel des montants en
+  lignes & 3 & 2 \\ \hline
+MBILEU MBAKOP A. A. & Dictionnaire des données et identité partielle
+  (9 éléments de l'identité de l'entreprise) & 10 & 2 \\ \hline
+FONTSACK TASSADONG H. & Création du logo, du cachet et de la signature, et
+  téléversement & 5 & 3 \\ \hline
+SAAFOMAH TEZEMBON Z. & -- & 0 & 0 \\ \hline
+\end{longtable}
+
+\end{document}
